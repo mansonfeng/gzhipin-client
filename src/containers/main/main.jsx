@@ -16,12 +16,11 @@ import Personal from '../personal/personal'
 import NotFound from '../../components/not-found/not-found'
 import {getUser} from '../../redux/actions'
 import NavFooter from '../../components/nav-footer/nav-footer'
+import Chat from '../chat/chat'
 
 import {getRedirectPath} from '../../utils'
 
 class Main extends Component {
-
-
   navList = [
     {
       path: '/laoban', // 路由路径
@@ -103,16 +102,17 @@ class Main extends Component {
           <Route path='/laoban' component={Laoban}/>
           <Route path='/message' component={Message}/>
           <Route path='/personal' component={Personal}/>
+          <Route path='/chat/:userid' component={Chat}/>
           <Route component={NotFound}/>
         </Switch>
 
-        {currentNav ?  <NavFooter navList={navList}/>: null}
+        {currentNav ?  <NavFooter navList={navList} unReadCount={this.props.unReadCount} />: null}
       </div>
     )
   }
 }
 
 export default connect(
-  state => ({user: state.user}),
+  state => ({user: state.user, unReadCount: state.chat.unReadCount}),
   {getUser}
 )(Main)
